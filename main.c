@@ -24,7 +24,7 @@ void	input_validations(argv);
 	paths = get_env();
 	handle_command(argv[2], paths);
 	handle_command(argv[3], paths);
-	//handle_file(char *file); TODO
+	handle_file(char *file); TODO
 }
 
 char	**get_env(void)
@@ -68,4 +68,24 @@ void	handle_command(char *cmd, char **paths)
 	}
 	close(fd);
 	return (NULL);
+}
+
+void	handle_file(int argc, char **argv)
+{
+	if (argc < 5 || argc > 5)
+	{
+		ft_printf("Error: Invalid number of arguments\n");
+		exit(1);
+	}
+	// file access validation
+	if (access(argv[1], F_OK) != 0) // file exist?
+	{
+		ft_printf("Error: File does not exist\n");
+		exit(1);
+	}
+	if (access(argv[1], R_OK) != 0)
+	{
+		ft_printf("Error: Read permission denied\n");
+		exit(1);
+	}
 }
