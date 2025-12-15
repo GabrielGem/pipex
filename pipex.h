@@ -6,7 +6,7 @@
 /*   By: gabr <gabrgarc@student.42sp.org.br>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 11:34:32 by gabr              #+#    #+#             */
-/*   Updated: 2025/12/14 21:38:20 by gabrgarc         ###   ########.fr       */
+/*   Updated: 2025/12/15 17:26:39 by gabrgarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,13 @@ enum e_relative
 	relative2 = 0b10
 };
 
+void	check_commands(t_info *info);
+void	check_arguments_and_files(int argc, char **argv);
+
 t_info	get_info(char **argv, char **envp);
 
 void	pipex(t_info *info);
-void	input_validations(t_info *info);
+
 void	clear_memory(t_info *info);
 
 #endif
