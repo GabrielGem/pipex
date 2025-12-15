@@ -6,13 +6,13 @@
 /*   By: gabrgarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 15:52:40 by gabrgarc          #+#    #+#             */
-/*   Updated: 2025/12/14 14:43:04 by gabrgarc         ###   ########.fr       */
+/*   Updated: 2025/12/14 21:09:27 by gabrgarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	**get_path(char **envp);
+static char	**get_path(char **envp);
 
 t_info	get_info(char **argv, char **envp)
 {
@@ -30,7 +30,7 @@ t_info	get_info(char **argv, char **envp)
 	return (info);
 }
 
-char	**get_path(char **envp)
+static char	**get_path(char **envp)
 {
 	char	*env;
 	char	*temp;
