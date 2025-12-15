@@ -6,60 +6,72 @@
 /*   By: gabrgarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 15:49:36 by gabrgarc          #+#    #+#             */
-/*   Updated: 2025/12/14 21:09:29 by gabrgarc         ###   ########.fr       */
+/*   Updated: 2025/12/15 16:57:14 by gabrgarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	check_relative_path(t_info *info, char **path_cmd, char *cmd);
+static int	validate_cmd(t_info *info, char **cmd, char **path_cmd, int flag);
+static char	*find_command_in_path(t_info *info, char *cmd);
+static int	is_valid_executable(char *path);
 
 void	input_validations(t_info *info)
 {
-	if (ft_strchr(info->cmd1[0], '/'))
-		info->path_cmd1 = info->cmd1[0];
-	if (ft_strchr(info->cmd2[0], '/'))
-		info->path_cmd2 = info->cmd2[0];
-	if (info->path_cmd1 == NULL)
+	if (!validate_cmd(info, info->cmd1, &info->path_cmd1, relative)
+		|| !validate_cmd(info, info->cmd2, &info->path_cmd2, relative2))
 	{
-		info->flags |= relative;
-		check_relative_path(info, &info->path_cmd1, info->cmd1[0]);
-		if (info->path_cmd1 == NULL)
-		{
-			info->flags &= ~relative;
-			clear_memory(info);
-			exit (1);
-		}
-	}
-	if (info->path_cmd2 == NULL)
-	{
-		info->flags |= relative2;
-		check_relative_path(info, &info->path_cmd2, info->cmd2[0]);
-		if (info->path_cmd2 == NULL)
-		{
-			info->flags &= ~relative2;
-			clear_memory(info);
-			exit (1);
-		}
+		clear_memory(info);
+		exit(127);
 	}
 }
 
-static void	check_relative_path(t_info *info, char **path_cmd, char *cmd)
+static int	validate_cmd(t_info *info, char **cmd, char **path_cmd, int flag)
+{
+	if (ft_strchr(cmd[0], '/'))
+	{
+		*path_cmd = cmd[0];
+		if (!is_valid_executable(*path_cmd))
+		{
+			ft_putstr_fd("pipex: ", 2);
+			ft_putstr_fd(cmd[0], 2);
+			perror(":\b");
+			return (0);
+		}
+	}
+	else
+	{
+		info->flags |= flag;
+		*path_cmd = find_command_in_path(info, cmd[0]);
+		if (*path_cmd == NULL)
+		{
+			ft_putstr_fd("pipex: ", 2);
+			ft_putstr_fd(cmd[0], 2);
+			perror(":\b");
+			return (0);
+		}
+	}
+	return (1);
+}
+
+static char	*find_command_in_path(t_info *info, char *cmd)
 {
 	int		i;
-	char	*absolute;
+	char	*full_path;
 
 	i = 0;
 	while (info->path[i])
 	{
-		absolute = ft_strjoin(info->path[i], cmd);
-		if (!access(absolute, F_OK) && !access(absolute, X_OK))
-		{
-			*path_cmd = absolute;
-			return ;
-		}
-		free(absolute);
+		full_path = ft_strjoin(info->path[i], cmd);
+		if (is_valid_executable(full_path))
+			return (full_path);
+		free(full_path);
 		i++;
 	}
-	ft_putstr_fd("Error: Command does not exist or not without permission.\n", 2);
+	return (NULL);
+}
+
+static int	is_valid_executable(char *path)
+{
+	return (access(path, F_OK) == 0 && access(path, X_OK) == 0);
 }
