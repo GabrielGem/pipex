@@ -6,7 +6,7 @@
 /*   By: gabrgarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 15:49:36 by gabrgarc          #+#    #+#             */
-/*   Updated: 2025/12/15 16:57:14 by gabrgarc         ###   ########.fr       */
+/*   Updated: 2025/12/15 17:17:36 by gabrgarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	validate_cmd(t_info *info, char **cmd, char **path_cmd, int flag);
 static char	*find_command_in_path(t_info *info, char *cmd);
 static int	is_valid_executable(char *path);
 
-void	input_validations(t_info *info)
+void	check_commands(t_info *info)
 {
 	if (!validate_cmd(info, info->cmd1, &info->path_cmd1, relative)
 		|| !validate_cmd(info, info->cmd2, &info->path_cmd2, relative2))
