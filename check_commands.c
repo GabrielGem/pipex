@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_validations.c                                :+:      :+:    :+:   */
+/*   check_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabrgarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 15:49:36 by gabrgarc          #+#    #+#             */
-/*   Updated: 2025/12/15 17:17:36 by gabrgarc         ###   ########.fr       */
+/*   Updated: 2025/12/27 14:45:56 by gabrgarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ static int	validate_cmd(t_info *info, char **cmd, char **path_cmd, int flag)
 		if (!is_valid_executable(*path_cmd))
 		{
 			ft_putstr_fd("pipex: ", 2);
-			ft_putstr_fd(cmd[0], 2);
-			perror(":\b");
+			perror(cmd[0]);
 			return (0);
 		}
 	}
@@ -46,8 +45,7 @@ static int	validate_cmd(t_info *info, char **cmd, char **path_cmd, int flag)
 		if (*path_cmd == NULL)
 		{
 			ft_putstr_fd("pipex: ", 2);
-			ft_putstr_fd(cmd[0], 2);
-			perror(":\b");
+			perror(cmd[0]);
 			return (0);
 		}
 	}
